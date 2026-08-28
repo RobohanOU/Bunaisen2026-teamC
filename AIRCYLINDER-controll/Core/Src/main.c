@@ -176,12 +176,13 @@ int main(void) {
 
 		/* USER CODE BEGIN 3 */
 		// ンダード エアシリンダー
-		// シリンダーを出す
-		HAL_GPIO_WritePin(GPIOE, GPIO_5, GPIO_PIN_SET);
-		HAL_Delay(5000);
-		// シリンダーを引っ込める
-		HAL_GPIO_WritePin(GPIOE, GPIO_5, GPIO_PIN_RESET);
-		HAL_Delay(5000);
+		if (DS4.r1 == 1) {
+			// シリンダーを出す
+			HAL_GPIO_WritePin(GPIOE, GPIO_5, GPIO_PIN_RESET);
+		} else if (DS4.r1 == 0) {
+			// シリンダーを引っ込める
+			HAL_GPIO_WritePin(GPIOE, GPIO_5, GPIO_PIN_RESET);
+		}
 	}
 	/* USER CODE END 3 */
 }

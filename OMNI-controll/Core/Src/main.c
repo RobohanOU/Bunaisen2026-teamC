@@ -193,10 +193,10 @@ int main(void) {
 
 		float r_stick_y_a = DS4.r_stick_y / 128.0;
 		if (r_stick_y_a >= 0) {
-			__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_1, 500 * r_stick_y_a);
+			__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_1, 900 * r_stick_y_a);
 			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
 		} else {
-			__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_1, 500 * -r_stick_y_a);
+			__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_1, 900 * -r_stick_y_a);
 			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
 		}
 		__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, 300);

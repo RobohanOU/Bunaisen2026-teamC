@@ -964,7 +964,7 @@ int main(void) {
  8000bee:	eef5 7ac0 	vcmpe.f32	s15, #0.0
  8000bf2:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
  8000bf6:	db12      	blt.n	8000c1e <main+0x10e>
-			__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_1, 500 * r_stick_y_a);
+			__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_1, 900 * r_stick_y_a);
  8000bf8:	edd7 7a07 	vldr	s15, [r7, #28]
  8000bfc:	ed9f 7a27 	vldr	s14, [pc, #156]	@ 8000c9c <main+0x18c>
  8000c00:	ee67 7a87 	vmul.f32	s15, s15, s14
@@ -980,7 +980,7 @@ int main(void) {
  8000c18:	f002 f82c 	bl	8002c74 <HAL_GPIO_WritePin>
  8000c1c:	e013      	b.n	8000c46 <main+0x136>
 		} else {
-			__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_1, 500 * -r_stick_y_a);
+			__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_1, 900 * -r_stick_y_a);
  8000c1e:	edd7 7a07 	vldr	s15, [r7, #28]
  8000c22:	eef1 7a67 	vneg.f32	s15, s15
  8000c26:	ed9f 7a1d 	vldr	s14, [pc, #116]	@ 8000c9c <main+0x18c>
@@ -1034,7 +1034,7 @@ int main(void) {
  8000c90:	20000028 	.word	0x20000028
  8000c94:	20000198 	.word	0x20000198
  8000c98:	40600000 	.word	0x40600000
- 8000c9c:	43fa0000 	.word	0x43fa0000
+ 8000c9c:	44610000 	.word	0x44610000
  8000ca0:	42020800 	.word	0x42020800
  8000ca4:	42020400 	.word	0x42020400
  8000ca8:	42021000 	.word	0x42021000

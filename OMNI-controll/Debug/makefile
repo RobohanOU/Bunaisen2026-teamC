@@ -60,8 +60,8 @@ all: main-build
 main-build: OMNI-controll.elf secondary-outputs
 
 # Tool invocations
-OMNI-controll.elf OMNI-controll.map: $(OBJS) $(USER_OBJS) C:\Users\standard\code\STM32\Bunaisen2026-teamC\OMNI-controll\STM32H563VITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "OMNI-controll.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m33 -T"C:\Users\standard\code\STM32\Bunaisen2026-teamC\OMNI-controll\STM32H563VITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="OMNI-controll.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+OMNI-controll.elf OMNI-controll.map: $(OBJS) $(USER_OBJS) C:\Users\tyaty\Robohan\Bunaisen2026-teamC\OMNI-controll\STM32H563VITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "OMNI-controll.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m33 -T"C:\Users\tyaty\Robohan\Bunaisen2026-teamC\OMNI-controll\STM32H563VITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="OMNI-controll.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

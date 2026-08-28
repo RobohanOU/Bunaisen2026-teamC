@@ -121,6 +121,34 @@ int main(void) {
 	HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_3);
 	HAL_TIM_PWM_Start(&htim12, TIM_CHANNEL_1);
 	HAL_TIM_PWM_Start(&htim15, TIM_CHANNEL_1);
+
+	// CAN通信
+	MX_ICACHE_Init();
+	/* USER CODE BEGIN 2 */
+	FDCAN_FilterTypeDef sFilterConfig;
+	// Configure Rx filter
+	sFilterConfig.IdType = FDCAN_STANDARD_ID;
+	sFilterConfig.FilterIndex = 0;
+	sFilterConfig.FilterType = FDCAN_FILTER_MASK;
+	sFilterConfig.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;
+	sFilterConfig.FilterID1 = 0x101;
+	sFilterConfig.FilterID2 = 0x7F0;
+	if (HAL_FDCAN_ConfigFilter(&hfdcan2, &sFilterConfig) != HAL_OK) {
+		Error_Handler();
+	}
+	if (HAL_FDCAN_ConfigGlobalFilter(&hfdcan2, FDCAN_REJECT, FDCAN_REJECT,
+			FDCAN_REJECT_REMOTE, FDCAN_REJECT_REMOTE)) {
+		Error_Handler();
+	}
+	// Enable Rx CallBack
+	if (HAL_FDCAN_ActivateNotification(&hfdcan2, FDCAN_IT_RX_FIFO0_NEW_MESSAGE,
+			0) != HAL_OK) {
+		Error_Handler();
+	}
+	// Start the FDCAN module
+	if (HAL_FDCAN_Start(&hfdcan2) != HAL_OK) {
+		Error_Handler();
+	}
 	/* USER CODE END 2 */
 
 	/* Infinite loop */
@@ -134,27 +162,6 @@ int main(void) {
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET);
 		__HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_1, 100);
 		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_RESET);
-
-		// CAN通信
-		TxHeader.IdType = FDCAN_STANDARD_ID;
-		TxHeader.TxFrameType = FDCAN_DATA_FRAME;
-		TxHeader.DataLength = FDCAN_DLC_BYTES_64;
-		TxHeader.ErrorStateIndicator = FDCAN_ESI_PASSIVE;
-		TxHeader.BitRateSwitch = FDCAN_BRS_OFF;
-		TxHeader.FDFormat = FDCAN_FD_CAN;
-		TxHeader.TxEventFifoControl = FDCAN_NO_TX_EVENTS;
-		TxHeader.MessageMarker = 0;
-		TxHeader.Identifier = 0x7FF;
-
-		if (HAL_FDCAN_GetTxFifoFreeLevel(&hfdcan2) >= 1) {
-			if (HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan2, &TxHeader, TxData)
-					!= HAL_OK) {
-				/* Transmission request Error */
-				Error_Handler();
-			}
-		}
-
-		HAL_Delay(100);
 		/* USER CODE END WHILE */
 
 		/* USER CODE BEGIN 3 */

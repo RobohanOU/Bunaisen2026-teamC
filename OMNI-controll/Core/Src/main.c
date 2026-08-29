@@ -199,37 +199,37 @@ int main(void) {
 		float omega_2 = (0.707 * v_x + 0.707 * v_y + L * omega) / (1.414 + L);
 		float omega_3 = (0.707 * v_x - 0.707 * v_y + L * omega) / (1.414 + L);
 		float omega_4 = (-0.707 * v_x - 0.707 * v_y + L * omega) / (1.414 + L);
-		if (omega_1 >= 0 & omega_1 <= 1) {
+		if (omega_1 >= 0 && omega_1 <= 1) {
 			__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_1, 500 * omega_1);
 			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
-		} else if (omega_1 < 0 & omega_1 >= -1) {
+		} else if (omega_1 < 0 && omega_1 >= -1) {
 			__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_1, 500 * -omega_1);
 			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
 		} else {
 
 		}
-		if (omega_2 >= 0 & omega_2 <= 1) {
+		if (omega_2 >= 0 && omega_2 <= 1) {
 			__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, 500 * omega_2);
 			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_9, GPIO_PIN_SET);
-		} else if (omega_2 < 0 & omega_2 >= -1) {
+		} else if (omega_2 < 0 && omega_2 >= -1) {
 			__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, 500 * -omega_2);
 			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_9, GPIO_PIN_RESET);
 		} else {
 
 		}
-		if (omega_3 >= 0 & omega_3 <= 1) {
+		if (omega_3 >= 0 && omega_3 <= 1) {
 			__HAL_TIM_SET_COMPARE(&htim12, TIM_CHANNEL_1, 500 * omega_3);
 			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET);
-		} else if (omega_3 < 0 & omega_3 >= -1) {
+		} else if (omega_3 < 0 && omega_3 >= -1) {
 			__HAL_TIM_SET_COMPARE(&htim12, TIM_CHANNEL_1, 500 * -omega_3);
 			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET);
 		} else {
 
 		}
-		if (omega_4 >= 0 & omega_4 <= 1) {
+		if (omega_4 >= 0 && omega_4 <= 1) {
 			__HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_1, 500 * omega_4);
 			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_SET);
-		} else if (omega_4 < 0 & omega_4 >= -1) {
+		} else if (omega_4 < 0 && omega_4 >= -1) {
 			__HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_1, 500 * -omega_4);
 			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_RESET);
 		} else {

@@ -21,7 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdlib.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -113,7 +113,10 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+// コントローラーのマージン範囲
+#define CONTROLLER_MERGIN 10
+// マージンを取るマクロ
+#define GET_MERGIN(input) ((abs((input)) < CONTROLLER_MERGIN) ? 0 : (input))
 /* USER CODE END 0 */
 
 /**
@@ -192,9 +195,15 @@ int main(void) {
 		// のこのこ
 		float r = 1.0; //半径が分かり次第いれます
 		float L = 1.0; //機体の中心からホイールまでの距離が分かりしだいいれます
-		float v_x = DS4.r_stick_x / 128.0; //全部-1から1に圧縮してます
-		float v_y = DS4.r_stick_y / 128.0;
-		float omega = DS4.l_stick_x / 128.0;
+
+		// コントローラー入力のマージン（無効範囲）を取る
+		int8_t r_stick_x_margined = GET_MERGIN(DS4.r_stick_x);
+		int8_t r_stick_y_margined = GET_MERGIN(DS4.r_stick_y);
+		int8_t l_stick_x_margined = GET_MERGIN(DS4.l_stick_x);
+
+		float v_x = r_stick_x_margined / 128.0; //全部-1から1に圧縮してます
+		float v_y = r_stick_y_margined / 128.0;
+		float omega = l_stick_x_margined / 128.0;
 		float omega_1 = (-0.707 * v_x + 0.707 * v_y + L * omega) / (1.414 + L);
 		float omega_2 = (0.707 * v_x + 0.707 * v_y + L * omega) / (1.414 + L);
 		float omega_3 = (0.707 * v_x - 0.707 * v_y + L * omega) / (1.414 + L);

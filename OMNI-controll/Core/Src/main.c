@@ -117,6 +117,11 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
 #define CONTROLLER_MERGIN 10
 // マージンを取るマクロ
 #define GET_MERGIN(input) ((abs((input)) < CONTROLLER_MERGIN) ? 0 : (input))
+
+#define OMEGA_1_GAIN 1.0
+#define OMEGA_2_GAIN 1.0
+#define OMEGA_3_GAIN 1.0
+#define OMEGA_4_GAIN 1.0
 /* USER CODE END 0 */
 
 /**
@@ -208,6 +213,10 @@ int main(void) {
 		float omega_2 = (0.707 * v_x + 0.707 * v_y + L * omega) / (1.414 + L);
 		float omega_3 = (0.707 * v_x - 0.707 * v_y + L * omega) / (1.414 + L);
 		float omega_4 = (-0.707 * v_x - 0.707 * v_y + L * omega) / (1.414 + L);
+		omega_1 *= OMEGA_1_GAIN;
+		omega_2 *= OMEGA_2_GAIN;
+		omega_3 *= OMEGA_3_GAIN;
+		omega_4 *= OMEGA_4_GAIN;
 		if (omega_1 >= 0 && omega_1 <= 1) {
 			__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_1, 500 * omega_1);
 			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);

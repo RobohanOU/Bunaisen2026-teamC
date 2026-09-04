@@ -132,7 +132,7 @@ else if((right < (value))) value = right;
 #define OMEGA_2_GAIN 1.2
 #define OMEGA_3_GAIN 0.8
 #define OMEGA_4_GAIN 1.25
-#define DUTY_MAX 800
+uint16_t DUTY_MAX = 800;
 /* USER CODE END 0 */
 
 /**

@@ -117,11 +117,16 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
 #define CONTROLLER_MERGIN 10
 // マージンを取るマクロ
 #define GET_MERGIN(input) ((abs((input)) < CONTROLLER_MERGIN) ? 0 : (input))
+// clamp macro
+#define CLAMP(value, left, right) \
+	if((value) < (left)) value = left; \
+else if((right < (value))) value = right;
 
 #define OMEGA_1_GAIN 1.0
 #define OMEGA_2_GAIN 1.0
 #define OMEGA_3_GAIN 1.0
 #define OMEGA_4_GAIN 1.0
+#define DUTY_MAX 500
 /* USER CODE END 0 */
 
 /**
@@ -217,38 +222,43 @@ int main(void) {
 		omega_2 *= OMEGA_2_GAIN;
 		omega_3 *= OMEGA_3_GAIN;
 		omega_4 *= OMEGA_4_GAIN;
+
+		CLAMP(omega_1, -1, 1);
+		CLAMP(omega_2, -1, 1);
+		CLAMP(omega_3, -1, 1);
+		CLAMP(omega_4, -1, 1);
 		if (omega_1 >= 0 && omega_1 <= 1) {
-			__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_1, 500 * omega_1);
+			__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_1, DUTY_MAX * omega_1);
 			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
 		} else if (omega_1 < 0 && omega_1 >= -1) {
-			__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_1, 500 * -omega_1);
+			__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_1, DUTY_MAX * -omega_1);
 			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
 		} else {
 
 		}
 		if (omega_2 >= 0 && omega_2 <= 1) {
-			__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, 500 * omega_2);
+			__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, DUTY_MAX * omega_2);
 			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_9, GPIO_PIN_SET);
 		} else if (omega_2 < 0 && omega_2 >= -1) {
-			__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, 500 * -omega_2);
+			__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, DUTY_MAX * -omega_2);
 			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_9, GPIO_PIN_RESET);
 		} else {
 
 		}
 		if (omega_3 >= 0 && omega_3 <= 1) {
-			__HAL_TIM_SET_COMPARE(&htim12, TIM_CHANNEL_1, 500 * omega_3);
+			__HAL_TIM_SET_COMPARE(&htim12, TIM_CHANNEL_1, DUTY_MAX * omega_3);
 			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET);
 		} else if (omega_3 < 0 && omega_3 >= -1) {
-			__HAL_TIM_SET_COMPARE(&htim12, TIM_CHANNEL_1, 500 * -omega_3);
+			__HAL_TIM_SET_COMPARE(&htim12, TIM_CHANNEL_1, DUTY_MAX * -omega_3);
 			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET);
 		} else {
 
 		}
 		if (omega_4 >= 0 && omega_4 <= 1) {
-			__HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_1, 500 * omega_4);
+			__HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_1, DUTY_MAX * omega_4);
 			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_SET);
 		} else if (omega_4 < 0 && omega_4 >= -1) {
-			__HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_1, 500 * -omega_4);
+			__HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_1, DUTY_MAX * -omega_4);
 			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_RESET);
 		} else {
 

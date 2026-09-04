@@ -237,10 +237,10 @@ int main(void) {
 		}
 		if (omega_3 >= 0 && omega_3 <= 1) {
 			__HAL_TIM_SET_COMPARE(&htim12, TIM_CHANNEL_1, 500 * omega_3);
-			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET);
 		} else if (omega_3 < 0 && omega_3 >= -1) {
 			__HAL_TIM_SET_COMPARE(&htim12, TIM_CHANNEL_1, 500 * -omega_3);
-			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET);
 		} else {
 
 		}

@@ -122,11 +122,11 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
 	if((value) < (left)) value = left; \
 else if((right < (value))) value = right;
 
-#define OMEGA_1_GAIN 1.0
-#define OMEGA_2_GAIN 1.0
-#define OMEGA_3_GAIN 1.0
-#define OMEGA_4_GAIN 1.0
-#define DUTY_MAX 500
+#define OMEGA_1_GAIN 1.25
+#define OMEGA_2_GAIN 1.1
+#define OMEGA_3_GAIN 0.75
+#define OMEGA_4_GAIN 1.2
+#define DUTY_MAX 800
 /* USER CODE END 0 */
 
 /**

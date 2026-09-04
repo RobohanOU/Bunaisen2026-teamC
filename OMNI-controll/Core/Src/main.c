@@ -22,6 +22,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdlib.h>
+#include <string.h>
+#include <memory.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -82,6 +84,9 @@ FDCAN_RxHeaderTypeDef RxHeader;
 
 // DualShock用構造体
 DS4_Controller_Typedef DS4;
+
+// 最後に通信を受け取った時刻
+time_t last_received;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -100,6 +105,7 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
 	 } else */if (hfdcan == &hfdcan2) {
 		if ((RxFifo0ITs & FDCAN_IT_RX_FIFO0_NEW_MESSAGE) != RESET) {
 			// Retrieve Rx messages from RX FIFO0
+			last_received = time(NULL);
 			if (HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &RxHeader,
 					(uint8_t*) &DS4) != HAL_OK) {
 				Error_Handler();
@@ -122,10 +128,10 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
 	if((value) < (left)) value = left; \
 else if((right < (value))) value = right;
 
-#define OMEGA_1_GAIN 1.25
-#define OMEGA_2_GAIN 1.1
-#define OMEGA_3_GAIN 0.75
-#define OMEGA_4_GAIN 1.2
+#define OMEGA_1_GAIN 1.3
+#define OMEGA_2_GAIN 1.2
+#define OMEGA_3_GAIN 0.8
+#define OMEGA_4_GAIN 1.25
 #define DUTY_MAX 800
 /* USER CODE END 0 */
 
@@ -203,6 +209,11 @@ int main(void) {
 	/* USER CODE BEGIN WHILE */
 	while (1) {
 		// のこのこ
+		// 一定時間通信が受け取れなかった場合に入力を0に
+		if(time(NULL) - last_received > 5) {
+			memset(DS4, 0, sizeof(DS4));
+		}
+
 		float r = 1.0; //半径が分かり次第いれます
 		float L = 1.0; //機体の中心からホイールまでの距離が分かりしだいいれます
 
